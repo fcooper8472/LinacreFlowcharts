@@ -29,8 +29,8 @@ jobs:
           for f in *.mmd; do
             base=$(basename "$f" | sed 's/\.[^.]*$//')
 
-            mmdc -p puppeteer-config.json -i "$f" -o "artifacts/$base.svg"
-            mmdc -p puppeteer-config.json -i "$f" -o "artifacts/$base.png"
+            mmdc -c config.yaml -p puppeteer-config.json -i "$f" -o "artifacts/$base.svg"
+            mmdc -c config.yaml -p puppeteer-config.json -i "$f" -o "artifacts/$base.png"
 
             inkscape "artifacts/$base.svg" \
               --export-type=emf \
