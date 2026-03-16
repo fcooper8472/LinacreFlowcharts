@@ -2,6 +2,8 @@
 config:
   theme: redux
   layout: dagre
+  flowchart:
+    useHtmlLabels: false
 ---
 flowchart TD
   Start([Report received<br>§4.1])
@@ -16,4 +18,3 @@ flowchart TD
   Assess -->|Case to answer| Decision
   Decision -->|Minor| Minor
   Decision -->|Major| Major
-  

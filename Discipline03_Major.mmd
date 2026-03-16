@@ -2,6 +2,8 @@
 config:
   theme: redux
   layout: dagre
+  flowchart:
+    useHtmlLabels: false
 ---
 flowchart TD
   Refer([Referral to Disciplinary Panel<br>§6.3])
@@ -28,4 +30,3 @@ flowchart TD
   AppealMajor -->|Yes| AppealCommittee --> Outcome --> CCAT
   CCAT -->|Yes| CCATYes
   CCAT -->|No| End
-  
