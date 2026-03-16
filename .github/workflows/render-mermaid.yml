@@ -1,0 +1,43 @@
+name: render-mermaid
+
+on:
+  push:
+    paths:
+      - "*.mmd"
+      - "*.mermaid"
+  workflow_dispatch:
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/Krypton
+
+      - run: npm install -g @mermaid-js/mermaid-cli
+
+      - run: sudo apt-get update && sudo apt-get install -y inkscape
+
+      - run: mkdir artifacts
+
+      - name: Render diagrams
+        run: |
+          for f in *.mmd *.mermaid; do
+            base=$(basename "$f" | sed 's/\.[^.]*$//')
+
+            mmdc -i "$f" -o "artifacts/$base.svg"
+            mmdc -i "$f" -o "artifacts/$base.png"
+
+            inkscape "artifacts/$base.svg" \
+              --export-type=emf \
+              --export-filename="artifacts/$base.emf"
+          done
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: mermaid-diagrams
+          path: artifacts
