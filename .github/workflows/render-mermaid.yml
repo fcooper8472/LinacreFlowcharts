@@ -20,7 +20,7 @@ jobs:
 
       - run: npm install -g @mermaid-js/mermaid-cli
 
-      - run: sudo apt-get update && sudo apt-get install -y inkscape
+      - run: sudo apt-get update && sudo apt-get install -y chromium-browser
 
       - run: mkdir artifacts
 
@@ -29,12 +29,11 @@ jobs:
           for f in *.mmd; do
             base=$(basename "$f" | sed 's/\.[^.]*$//')
 
-            mmdc -c config.yaml -p puppeteer-config.json -i "$f" -o "artifacts/$base.svg"
-            mmdc -c config.yaml -p puppeteer-config.json -i "$f" -o "artifacts/$base.png"
+            mmdc -p puppeteer-config.json -i "$f" -o "artifacts/$base.svg"
+            mmdc -p puppeteer-config.json -i "$f" -o "artifacts/$base.png"
 
-            inkscape "artifacts/$base.svg" \
-              --export-type=emf \
-              --export-filename="artifacts/$base.emf"
+            # Use Chromium to print the SVG to a vector PDF (Chromium understands foreignObject)
+            /usr/bin/chromium-browser --headless --no-sandbox --disable-gpu --print-to-pdf="artifacts/${base}.pdf" "file://$(pwd)/artifacts/${base}.svg"
           done
 
       - uses: actions/upload-artifact@v7
