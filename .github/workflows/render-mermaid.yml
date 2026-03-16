@@ -18,9 +18,12 @@ jobs:
         with:
           node-version: lts/Krypton
 
-      - run: npm install -g @mermaid-js/mermaid-cli
-
-      - run: sudo apt-get update && sudo apt-get install -y chromium-browser
+      - name: Install tools
+        run: |
+          npm install -g @mermaid-js/mermaid-cli
+          npm install puppeteer
+          sudo apt update
+          sudo apt install -y chromium-browser
 
       - run: mkdir artifacts
 
@@ -32,8 +35,7 @@ jobs:
             mmdc -p puppeteer-config.json -i "$f" -o "artifacts/$base.svg"
             mmdc -p puppeteer-config.json -i "$f" -o "artifacts/$base.png"
 
-            # Use Chromium to print the SVG to a vector PDF (Chromium understands foreignObject)
-            /usr/bin/chromium-browser --headless --no-sandbox --disable-gpu --print-to-pdf="artifacts/${base}.pdf" "file://$(pwd)/artifacts/${base}.svg"
+            node render-pdf.js "artifacts/$base.svg" "artifacts/$base.pdf"
           done
 
       - uses: actions/upload-artifact@v7
