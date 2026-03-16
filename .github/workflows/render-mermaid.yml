@@ -23,7 +23,7 @@ jobs:
           npm install -g @mermaid-js/mermaid-cli
           npm install puppeteer
           sudo apt update
-          sudo apt install -y chromium-browser pdf2svg
+          sudo apt install -y chromium-browser poppler-utils ttf-mscorefonts-installer fonts-liberation fonts-dejavu
 
       - run: mkdir artifacts
 
@@ -37,7 +37,7 @@ jobs:
 
             node render-pdf.js "artifacts/$base.svg" "artifacts/$base.pdf"
 
-            pdf2svg artifacts/$base.pdf artifacts/$base.clean.svg
+            pdftocairo -svg artifacts/$base.pdf artifacts/$base.clean.svg
           done
 
       - uses: actions/upload-artifact@v7
