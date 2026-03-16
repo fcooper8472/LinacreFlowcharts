@@ -1,0 +1,19 @@
+---
+config:
+  theme: redux
+  layout: dagre
+---
+flowchart TD
+  Start([Report received<br>§4.1])
+  Assess{Dean of Discipline<br>initial assessment<br>§4.2}
+  NoCase([No case / informal resolution])
+  Decision{Minor or Major?}
+  Minor[Proceed under Part 5:<br>Minor Procedure]
+  Major[Refer under Part 6:<br>Disciplinary Panel]
+
+  Start --> Assess
+  Assess -->|No case to answer| NoCase
+  Assess -->|Case to answer| Decision
+  Decision -->|Minor| Minor
+  Decision -->|Major| Major
+  

@@ -1,0 +1,26 @@
+---
+config:
+  theme: redux
+  layout: dagre
+---
+flowchart TD
+  Begin([Minor procedure begins<br>§5.1])
+  Investigate[Dean investigates<br>§5.3-5.6]
+  Admitted{Breach admitted?<br>§5.4}
+  Imposed([Minor penalty imposed<br>Appendix A.II])
+  Further[Further investigation / evidence gathering<br>§5.5]
+  Established{Breach established?<br>§5.10}
+  NoBreach([Process ends])
+  Appeal{Appeal to Principal?<br>§5.13}
+  Principal[Principal review<br>§5.19<br>confirm / reduce / reverse / refer to Panel]
+
+  Begin --> Investigate
+  Investigate --> Admitted
+  Established -->|Yes| Imposed
+  Admitted -->|Yes| Imposed
+  Admitted -->|No| Further
+  Further --> Established
+  Established -->|No| NoBreach
+  Imposed --> Appeal
+  Appeal -->|No| NoBreach
+  Appeal -->|Yes| Principal
