@@ -29,8 +29,8 @@ jobs:
           for f in *.mmd *.mermaid; do
             base=$(basename "$f" | sed 's/\.[^.]*$//')
 
-            mmdc -i "$f" -o "artifacts/$base.svg"
-            mmdc -i "$f" -o "artifacts/$base.png"
+            mmdc -p puppeteer-config.json -i "$f" -o "artifacts/$base.svg"
+            mmdc -p puppeteer-config.json -i "$f" -o "artifacts/$base.png"
 
             inkscape "artifacts/$base.svg" \
               --export-type=emf \
