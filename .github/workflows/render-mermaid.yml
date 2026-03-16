@@ -26,7 +26,7 @@ jobs:
 
       - name: Render diagrams
         run: |
-          for f in *.mmd *.mermaid; do
+          for f in *.mmd; do
             base=$(basename "$f" | sed 's/\.[^.]*$//')
 
             mmdc -p puppeteer-config.json -i "$f" -o "artifacts/$base.svg"
